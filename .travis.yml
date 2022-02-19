@@ -8,9 +8,18 @@ script:
   - docker run -e CI=true rishabh.911996/react-test npm test -- --coverage
 
 after_success: 
-  - docker build -t rishabh.911996/multi-client ./client
-  - docker build -t rishabh.911996/multi-nginx ./nginx
-  - docker build -t rishabh.911996/multi-server ./server
-  - docker build -t rishabh.911996/multi-worker ./worker
+  - docker build -t rishabh911996/multi-client ./client
+  - docker build -t rishabh911996/multi-nginx ./nginx
+  - docker build -t rishabh911996/multi-server ./server
+  - docker build -t rishabh911996/multi-worker ./worker
+
+  #docker login
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   #Push the images to dockerhub
+
+  - docker push rishabh911996/multi-client
+  - docker push rishabh911996/multi-nginx
+  - docker push rishabh911996/multi-server
+  - docker push rishabh911996/multi-worker
+
