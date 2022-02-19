@@ -19,7 +19,7 @@ after_success:
   #Push the images to dockerhub
 
   - docker push rishabh911996/multi-client
-  - docker push rishabh911996/multi-nginx
+#  - docker push rishabh911996/multi-nginx
   - docker push rishabh911996/multi-server
-  - docker push rishabh911996/multi-worker
+  - docker push rishabh911996/multi-worker123
 
