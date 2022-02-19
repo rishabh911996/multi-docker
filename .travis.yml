@@ -2,10 +2,10 @@ sudo: required
 services: 
   - docker
 before_install: 
-  - docker build -t rishabh.911996/react-test -f ./client/Dockerfile.dev ././client
+  - docker build -t rishabh911996/react-test -f ./client/Dockerfile.dev ././client
 
 script: 
-  - docker run -e CI=true rishabh.911996/react-test npm test -- --coverage
+  - docker run -e CI=true rishabh911996/react-test npm test -- --coverage
 
 after_success: 
   - docker build -t rishabh911996/multi-client ./client
@@ -19,7 +19,7 @@ after_success:
   #Push the images to dockerhub
 
   - docker push rishabh911996/multi-client
-#  - docker push rishabh911996/multi-nginx
+  - docker push rishabh911996/multi-nginx
   - docker push rishabh911996/multi-server
-  - docker push rishabh911996/multi-worker123
+  - docker push rishabh911996/multi-worker
 
