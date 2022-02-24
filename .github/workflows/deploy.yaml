@@ -1,8 +1,8 @@
-name: Mulit-Docker
-on: workflow_dispatch
-  # push:
-  #   branches:
-  #     - main
+name: Deploy MultiDocker
+on:
+  push:
+    branches:
+      - main
  
 jobs:
   build:
@@ -10,8 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
-      - run: docker run -e CI=true cygnetops/react-test npm test
+      - run: docker build -t rishabh911996/react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true rishabh911996/react-test npm test
+ 
+      - run: docker build -t rishabh911996/multi-client-10-14 ./client
+      - run: docker build -t rishabh911996/multi-nginx-10-14 ./nginx
+      - run: docker build -t rishabh911996/multi-server-10-14 ./server
+      - run: docker build -t rishabh911996/multi-worker-10-14 ./worker
+ 
+      - run: docker push rishabh911996/multi-client-10-14
+      - run: docker push rishabh911996/multi-nginx-10-14
+      - run: docker push rishabh911996/multi-server-10-14
+      - run: docker push rishabh911996/multi-worker-10-14
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
@@ -21,8 +31,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker-react
-          environment_name: Dockerreact-env
+          application_name: multi-docker
+          environment_name: Multidocker-env
           existing_bucket_name: elasticbeanstalk-us-east-1-141102535296
           region: us-east-1
           version_label: ${{ github.sha }}
