@@ -4,7 +4,33 @@
         {
         "name": "client",
         "image": "rishabh91196/multi-client",
-        "hostname": "client"
+        "hostname": "client",
+        "essential": false
+        },
+        {
+            "name": "server",
+            "image": "rishabh91196/multi-server",
+            "hostname": "api",
+            "essential": false            
+        },
+        {
+            "name": "worker",
+            "image": "rishabh91196/multi-worker",
+            "hostname": "worker",
+            "essential": false
+            },
+        {
+            "name": "nginx",
+            "image": "rishabh91196/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
         }
     ]
 }
